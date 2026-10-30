@@ -88,7 +88,7 @@
   function renderPulse() {
     var out = [], it = cat("az_italia"), inf = macro("infl_IT"), ecb = macro("rate_ecb"), sp = spreadSeries();
     if (it) out.push(["Borsa di Milano, 12 mesi", pct(it.statistiche.rend_1a), "FTSE MIB con dividendi", cls(it.statistiche.rend_1a)]);
-    if (sp && sp.length) out.push(["Spread BTP–Bund", num(sp[sp.length - 1][1], 0) + " pb", "differenza tra i rendimenti a 10 anni", ""]);
+    if (sp && sp.length) out.push(["Spread BTP–Bund", num(sp[sp.length - 1][1], 0) + " pb", "rendimenti a 10 anni, media di " + shortDate(sp[sp.length - 1][0]), ""]);
     if (inf) out.push(["Inflazione Italia", num(inf.valore, 1) + "%", shortDate(inf.data) + ", su un anno prima", ""]);
     if (ecb) out.push(["Tasso BCE", num(ecb.valore, 2) + "%", "rifinanziamento principale", ""]);
     $("#pulse").innerHTML = out.map(function (o) {
@@ -243,15 +243,14 @@
     $("#cmp-table tbody").innerHTML = PAESI.map(function (p, i) {
       return '<tr class="' + (p[0] === "IT" ? "me" : "") + '"><td class="country"><span class="flag">' + p[0] + "</span>" + esc(p[1]) + "</td>" +
         grid[i].map(function (x, j) {
-          if (!x) return '<td class="num"><span class="cell"><span class="v" style="color:var(--muted)">n.d.</span></span></td>';
+          if (!x) return '<td class="num"><span class="cell"><span class="v" style="color:var(--muted)" title="dato non disponibile">—</span></span></td>';
           var r = ranges[j], pos = r[1] > r[0] ? (x.v - r[0]) / (r[1] - r[0]) : 0.5;
           return '<td class="num"><span class="cell"><span class="v ' + (x.c || "") + '">' + x.t + "</span>" +
             (x.ref ? "" : '<span class="meter" aria-hidden="true"><i style="left:' + (pos * 100).toFixed(0) + '%"></i></span>') +
             (x.d ? '<span class="d">' + esc(tinyDate(x.d)) + "</span>" : "") + "</span></td>";
         }).join("") + "</tr>";
     }).join("");
-    var f = macro("infl_IT");
-    $("#cmp-foot").textContent = "Ogni Paese pubblica i dati in giorni diversi: sotto ogni cifra c'è il mese o trimestre a cui si riferisce. Borse misurate con FTSE MIB, DAX, CAC 40, IBEX 35 ed Euro Stoxx 50. Fonti: " + (f ? f.fonte : "BCE ed Eurostat") + ".";
+    $("#cmp-foot").textContent = "Ogni Paese pubblica i dati in giorni diversi: sotto ogni cifra c'è il mese o trimestre a cui si riferisce. Rendimenti e spread sono la media del mese. Per l'area euro non esiste un unico titolo di Stato a 10 anni. Borse misurate con FTSE MIB, DAX, CAC 40, IBEX 35 ed Euro Stoxx 50. Fonti: Eurostat (inflazione, disoccupazione, PIL), BCE (rendimenti), dati di borsa (indici).";
 
     var out = [], ecb = macro("rate_ecb"), iea = macro("infl_EA"), hy = macro("hy_spread_eu");
     if (ecb) {
@@ -351,7 +350,7 @@
     if (ius) out.push(fact({ stale: ius.non_aggiornato, val: num(ius.valore, 1), unit: "%", text: "Inflazione negli <b>Stati Uniti</b>.", src: srcLine(ius) }));
     if (u10 && u2) {
       var cu = u10.valore - u2.valore;
-      out.push(fact({ val: signed(cu, 2), unit: "", text: "Treasury a 10 anni (" + num(u10.valore, 2) + "%) meno quello a 2 anni. " + (cu >= 0 ? "Positivo, come di norma." : "Negativo, cioè <b>curva invertita</b>: in passato ha spesso preceduto un rallentamento, ma non sempre."), src: srcLine(u10) }));
+      out.push(fact({ val: signed(cu, 2), unit: "punti", text: "Treasury a 10 anni (" + num(u10.valore, 2) + "%) meno quello a 2 anni (" + num(u2.valore, 2) + "%). " + (cu >= 0 ? "Positivo, come di norma." : "Negativo, cioè <b>curva invertita</b>: in passato ha spesso preceduto un rallentamento, ma non sempre."), src: srcLine(u10) }));
     }
     if (vix) out.push(fact({ stale: vix.non_aggiornato, val: num(vix.valore, 1), unit: "", text: "Indice <b>VIX</b>, la paura misurata sulle opzioni di Wall Street. " + (vix.valore < 20 ? "Sotto 20, livello tipico delle fasi calme." : "Sopra 20, livello tipico delle fasi di tensione."), src: srcLine(vix) }));
     if (gpr) out.push(fact({ stale: gpr.non_aggiornato, val: num(gpr.valore, 0), unit: "", text: "<b>Rischio geopolitico</b> (100 = media storica)." + (gpr.percentile != null ? " Più alto del " + gpr.percentile + "% dei mesi dal 1985." : ""), src: srcLine(gpr) }));

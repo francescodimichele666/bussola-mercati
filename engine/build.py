@@ -202,7 +202,7 @@ MACRO_SOURCES = _eu_sources() + [
     ("rate_ecb", "Tasso BCE (rifinanziamento)", "%", BCE, BCE_URL, lambda: fetch_ecb("FM", "B.U2.EUR.4F.KR.MRR_FR.LEV")),
     ("hy_spread_eu", "Spread obbligazioni high yield in euro", "%", "FRED, St. Louis Fed (dati ICE BofA)", "https://fred.stlouisfed.org/series/BAMLHE00EHYIOAS", lambda: fetch_fred("BAMLHE00EHYIOAS")),
     # Dal mondo
-    ("infl_us",  "Inflazione USA",              "%",  "FRED, St. Louis Fed",    "https://fred.stlouisfed.org/series/CPIAUCSL", lambda: yoy(fetch_fred("CPIAUCSL"))),
+    ("infl_us",  "Inflazione USA",              "%",  "FRED, St. Louis Fed",    "https://fred.stlouisfed.org/series/CPIAUCSL", lambda: [(d[:7], v) for d, v in yoy(fetch_fred("CPIAUCSL"))]),
     ("rate_fed", "Tasso Fed (limite superiore)","%",  "FRED, St. Louis Fed",    "https://fred.stlouisfed.org/series/DFEDTARU", lambda: fetch_fred("DFEDTARU")),
     ("y10_us",   "Rendimento Treasury 10 anni", "%",  "FRED, St. Louis Fed",    "https://fred.stlouisfed.org/series/DGS10", lambda: fetch_fred("DGS10")),
     ("y2_us",    "Rendimento Treasury 2 anni",  "%",  "FRED, St. Louis Fed",    "https://fred.stlouisfed.org/series/DGS2", lambda: fetch_fred("DGS2")),
