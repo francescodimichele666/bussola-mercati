@@ -1,0 +1,45 @@
+name: Aggiorna dati e pubblica il sito
+
+on:
+  schedule:
+    - cron: "30 6 * * 1-5"   # 07:30/08:30 ora italiana, dal lunedì al venerdì
+    - cron: "30 22 * * 1-5"  # dopo la chiusura di Wall Street
+  workflow_dispatch: {}      # pulsante "Run workflow" per aggiornare a mano
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: sito
+  cancel-in-progress: false
+
+jobs:
+  aggiorna:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Installa il motore
+        run: pip install -r engine/requirements.txt
+      - name: Scarica i dati e rifà i calcoli
+        run: python engine/build.py --out site/data/data.json
+      - name: Salva i dati nel repository
+        run: |
+          git config user.name "bussola-bot"
+          git config user.email "bussola-bot@users.noreply.github.com"
+          git add site/data/data.json
+          git diff --cached --quiet || git commit -m "Dati aggiornati $(date -u +'%Y-%m-%d %H:%M') UTC"
+          git push
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deploy
+        uses: actions/deploy-pages@v4

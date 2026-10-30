@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bussola dei Mercati</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Italia ed Europa: borse, spread, inflazione e i fondi più grandi per categoria, con dati reali aggiornati ogni giorno. Solo informazione, nessuna consulenza finanziaria.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <a class="brand" href="#inizio">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M16 4.5 L19.6 16 L16 27.5 L12.4 16 Z" fill="currentColor"/><circle cx="16" cy="16" r="2" fill="var(--bg)"/></svg>
+      Bussola dei Mercati
+    </a>
+    <nav class="nav" aria-label="Sezioni">
+      <a href="#italia">Italia</a>
+      <a href="#europa">Europa</a>
+      <a href="#categorie">Categorie</a>
+      <a href="#fondi">Fondi</a>
+      <a href="titoli-di-stato.html">Titoli di Stato</a>
+      <a href="etf.html">ETF</a>
+      <a href="calendario.html">Calendario</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inizio">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap hero-in">
+      <div class="hero-copy">
+        <p class="kicker" id="updated">Caricamento dei dati in corso</p>
+        <h1 id="hero-title">L'Italia e l'Europa dei mercati, in numeri veri.</h1>
+        <p class="lede">Piazza Affari e le altre borse europee, lo spread, l'inflazione e i fondi più grandi per ogni categoria. Dati di borse, BCE ed Eurostat, letti in automatico ogni giorno. Nessuna previsione, nessun consiglio.</p>
+        <ul class="pulse" id="pulse" aria-label="I numeri principali di oggi"></ul>
+      </div>
+      <figure class="scene-box" id="scene-box">
+        <div class="scene-loading" id="scene-loading" aria-hidden="true"><span></span>Preparo il grafico</div>
+        <canvas id="scene" role="img" aria-label="Grafico 3D: andamento in euro delle borse di Italia, Germania, Francia, Spagna, area euro e mondo negli ultimi 5 anni"></canvas>
+        <div class="scene-labels" id="scene-labels" aria-hidden="true"></div>
+        <figcaption><span id="scene-caption">Le borse europee negli ultimi 5 anni, in euro.</span> <span class="hint">Trascina per girare.</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <div class="notice" role="note">
+    <div class="wrap notice-in">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v6.5M12 16.6v.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <p><b>Qui trovi informazioni, non consigli.</b> Sono dati storici a scopo educativo, uguali per tutti, non una raccomandazione personalizzata di investimento. I risultati passati non garantiscono quelli futuri e ogni investimento può perdere valore. Per decidere rivolgiti a un consulente abilitato.</p>
+    </div>
+  </div>
+
+  <div class="wrap preview-band" id="preview-band" hidden></div>
+
+  <section class="wrap section" id="italia" aria-labelledby="it-title">
+    <div class="sec-head">
+      <p class="sec-num">01</p>
+      <h2 id="it-title">L'Italia oggi</h2>
+      <p>Quanto costa il debito dello Stato, quanto salgono i prezzi, come va il lavoro e la Borsa di Milano. Ogni numero porta con sé data e fonte.</p>
+    </div>
+    <div class="it-grid" id="it-grid"></div>
+  </section>
+
+  <section class="band" id="europa" aria-labelledby="eu-title">
+    <div class="wrap section">
+      <div class="sec-head">
+        <p class="sec-num">02</p>
+        <h2 id="eu-title">Europa a confronto</h2>
+        <p>Le quattro maggiori economie dell'euro, fianco a fianco. La barra mostra dove si colloca ogni Paese rispetto agli altri sulla stessa colonna.</p>
+      </div>
+      <div class="table-scroll">
+        <table class="cmp" id="cmp-table">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="table-foot" id="cmp-foot"></p>
+      <div class="eu-facts" id="eu-facts"></div>
+    </div>
+  </section>
+
+  <section class="wrap section" id="categorie" aria-labelledby="cat-title">
+    <div class="sec-head">
+      <p class="sec-num">03</p>
+      <h2 id="cat-title">Categorie di investimento</h2>
+      <p>Come sono andate, in euro, le principali famiglie di investimento accessibili da un conto italiano: quanto hanno reso, quanto oscillano e quante volte un anno è finito in perdita.</p>
+    </div>
+    <div class="table-scroll">
+      <table class="cats" id="cats-table">
+        <thead>
+          <tr>
+            <th scope="col">Categoria</th>
+            <th scope="col" class="num">12 mesi</th>
+            <th scope="col" class="num">5 anni<br><small>all'anno</small></th>
+            <th scope="col" class="num">Oscillazione<br><small>annua</small></th>
+            <th scope="col" class="num">Calo<br><small>massimo</small></th>
+            <th scope="col" class="num">Anni in<br><small>perdita</small></th>
+            <th scope="col">Rischio<br><small>1–7</small></th>
+            <th scope="col">Tendenza<br><small>media 10 mesi</small></th>
+            <th scope="col">Ultimi 5 anni</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="table-foot">"Anni in perdita": su tutti i periodi di 12 mesi consecutivi disponibili, quanti sono finiti sotto zero. Il rischio usa le soglie di volatilità del regolamento europeo PRIIPs, le stesse delle schede KID.</p>
+  </section>
+
+  <section class="band" id="fondi" aria-labelledby="fondi-title">
+    <div class="wrap section">
+      <div class="sec-head">
+        <p class="sec-num">04</p>
+        <h2 id="fondi-title">I fondi più grandi per categoria</h2>
+        <p>Per ogni categoria, gli ETF ed ETC quotati in euro con più soldi gestiti. È un elenco oggettivo ordinato per patrimonio, utile per sapere cosa esiste e quanto costa.</p>
+      </div>
+      <div class="fund-note" role="note">
+        <b>Non è una classifica di qualità e non è un consiglio di acquisto.</b> Un fondo grande non è per forza adatto a te. Prima di qualsiasi decisione leggi il KID, il documento con le informazioni chiave che l'emittente deve pubblicare, e verifica il codice ISIN sul sito dell'emittente.
+      </div>
+      <div class="fund-tabs" id="fund-tabs" role="tablist" aria-label="Scegli la categoria"></div>
+      <div class="fund-panel" id="fund-panel" role="tabpanel" aria-live="polite"></div>
+      <p class="table-foot" id="fund-foot"></p>
+    </div>
+  </section>
+
+  <section class="wrap section" id="mondo" aria-labelledby="mondo-title">
+    <div class="sec-head">
+      <p class="sec-num">05</p>
+      <h2 id="mondo-title">Dal mondo</h2>
+      <p>Quello che succede fuori dall'Europa e che di solito arriva anche sui nostri mercati.</p>
+    </div>
+    <div class="facts" id="facts-world"></div>
+  </section>
+
+  <section class="band" id="metodo" aria-labelledby="met-title">
+    <div class="wrap section">
+      <div class="sec-head">
+        <p class="sec-num">06</p>
+        <h2 id="met-title">Da dove vengono i numeri</h2>
+        <p>Il sito si aggiorna da solo ogni giorno lavorativo. Se una fonte non risponde, resta il dato precedente con la scritta "non aggiornato". Nessun numero viene inventato o stimato a mano.</p>
+      </div>
+      <dl class="method">
+        <div><dt>Prezzi</dt><dd>Fine mese, con dividendi e cedole reinvestiti, in euro. Ogni categoria è misurata con un ETF UCITS molto scambiato, usato solo come termometro. <span class="src">Yahoo Finance, borse Xetra, Milano, Parigi, Madrid</span></dd></div>
+        <div><dt>Economia europea</dt><dd>Inflazione armonizzata e rendimenti dei titoli di Stato a 10 anni dalla Banca Centrale Europea; disoccupazione e crescita del PIL da Eurostat. <span class="src">BCE, Eurostat</span></dd></div>
+        <div><dt>Fondi</dt><dd>Patrimonio, costo annuo (TER) e politica dei proventi dai dati di borsa; codici ISIN dagli emittenti. L'elenco segue il patrimonio, non giudizi. <span class="src">Xetra, Euronext, BME, LSE, emittenti</span></dd></div>
+        <div><dt>Resto del mondo</dt><dd>Tassi e inflazione americani, indice VIX, spread delle obbligazioni ad alto rendimento. <span class="src">Federal Reserve di St. Louis, Banca Mondiale</span></dd></div>
+        <div><dt>Geopolitica</dt><dd>L'indice GPR conta ogni mese gli articoli di grandi quotidiani su guerre e tensioni internazionali. 100 è la media 1985–2019. <span class="src">Caldara e Iacoviello, Federal Reserve Board</span></dd></div>
+        <div><dt>Tendenza e rischio</dt><dd>Tendenza: prezzo sopra o sotto la media degli ultimi 10 mesi. Rischio 1–7: volatilità annua degli ultimi 5 anni con le soglie PRIIPs; non sostituisce l'indicatore del KID di un prodotto.</dd></div>
+      </dl>
+      <div class="table-scroll">
+        <table class="proxies" id="proxies">
+          <thead><tr><th scope="col">Categoria</th><th scope="col">Misurata con</th><th scope="col">Periodo</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <h2>Avvertenza legale</h2>
+    <p>Bussola dei Mercati è un servizio di sola informazione ed educazione finanziaria. I contenuti non costituiscono consulenza in materia di investimenti ai sensi dell'art. 1, comma 5-septies, del D.Lgs. 58/1998 (TUF) e della direttiva 2014/65/UE (MiFID II), né sollecitazione o offerta di acquisto o vendita di strumenti finanziari. Le categorie sono classi di attività descritte con indici di mercato. Gli elenchi di fondi sono ordinati solo per patrimonio gestito e non sono raccomandazioni: non tengono conto della situazione, degli obiettivi o della tolleranza al rischio di nessuno. I dati provengono da fonti terze ritenute affidabili ma possono contenere errori o ritardi. Le performance passate non sono indicative di quelle future. Ogni decisione di investimento resta dell'utente, che dovrebbe valutarla con un consulente abilitato iscritto all'Albo OCF, dopo aver letto il KID del prodotto.</p>
+    <p class="foot-meta" id="foot-meta"></p>
+  </div>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

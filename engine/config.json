@@ -1,0 +1,141 @@
+{
+  "_nota": "Categorie mostrate dal sito. Ogni categoria è misurata con un ETF UCITS quotato in euro, usato solo come 'termometro' del mercato. 'tickers' è l'elenco dei simboli Yahoo Finance da provare in ordine: il primo che risponde viene usato. 'prodotti' elenca i fondi più grandi per patrimonio (aum, in miliardi di euro) di quella categoria: è un elenco oggettivo, non un suggerimento. Patrimonio e costi vanno ricontrollati ogni qualche mese sul sito dell'emittente; il motore prova anche ad aggiornarli da solo.",
+  "storia_dal": "2005-01-01",
+  "cambio_eurusd": "EURUSD=X",
+  "prodotti_aggiornati_al": "2026-10-30",
+  "prodotti_fonte": "Fonte: dati di borsa (Xetra, Euronext, BME, LSE) via TradingView; codici ISIN dagli emittenti.",
+  "categorie": [
+    {"id": "az_italia", "nome": "Azioni Italia (FTSE MIB)", "gruppo": "Azioni", "paese": "IT",
+     "tickers": ["SXRY.DE", "CSMIB.MI"], "valuta": "EUR", "proxy": "iShares FTSE MIB UCITS ETF (Acc)",
+     "nota": "Le 40 società più grandi di Piazza Affari. Pesano molto banche, energia e utility: per questo l'indice reagisce forte ai tassi e allo spread.",
+     "prodotti": [
+       {"nome": "Amundi FTSE MIB UCITS ETF", "emittente": "Amundi", "isin": "FR0010010827", "borsa": "LSE:MIBX", "ter": 0.40, "aum": 0.570, "politica": "Distribuzione"},
+       {"nome": "iShares FTSE MIB UCITS ETF EUR (Acc)", "emittente": "BlackRock iShares", "isin": "IE00B53L4X51", "borsa": "XETR:SXRY", "yahoo": "SXRY.DE", "ter": 0.33, "aum": 0.408, "politica": "Accumulazione"},
+       {"nome": "iShares FTSE MIB UCITS ETF (Dist)", "emittente": "BlackRock iShares", "isin": "IE00B1XNH568", "borsa": "LSE:IMIB", "ter": 0.35, "aum": 0.130, "politica": "Distribuzione"}
+     ]},
+    {"id": "az_germania", "nome": "Azioni Germania (DAX)", "gruppo": "Azioni", "paese": "DE",
+     "tickers": ["EXS1.DE"], "valuta": "EUR", "proxy": "iShares Core DAX UCITS ETF (DE)",
+     "nota": "Le 40 maggiori aziende tedesche: industria, auto, chimica, assicurazioni. Molto legate al commercio mondiale.",
+     "prodotti": [
+       {"nome": "iShares Core DAX UCITS ETF (DE)", "emittente": "BlackRock iShares", "isin": "DE0005933931", "borsa": "XETR:EXS1", "yahoo": "EXS1.DE", "ter": 0.17, "aum": 8.65, "politica": "Accumulazione"},
+       {"nome": "Xtrackers DAX UCITS ETF 1C", "emittente": "DWS Xtrackers", "isin": "LU0274211480", "borsa": "XETR:DBXD", "yahoo": "DBXD.DE", "ter": 0.09, "aum": 6.96, "politica": "Accumulazione"}
+     ]},
+    {"id": "az_francia", "nome": "Azioni Francia (CAC 40)", "gruppo": "Azioni", "paese": "FR",
+     "tickers": ["CAC.PA", "^FCHI"], "valuta": "EUR", "proxy": "Amundi CAC 40 UCITS ETF",
+     "nota": "Le 40 maggiori società francesi, con grande peso del lusso, dell'energia e delle banche.",
+     "prodotti": [
+       {"nome": "Amundi CAC 40 UCITS ETF", "emittente": "Amundi", "isin": "FR0007052782", "borsa": "EURONEXT:CAC", "yahoo": "CAC.PA", "ter": 0.25, "aum": 3.09, "politica": "Distribuzione"},
+       {"nome": "Amundi CAC 40 ESG UCITS ETF", "emittente": "Amundi", "isin": "LU1681046931", "borsa": "EURONEXT:C40", "ter": 0.37, "aum": 0.625, "politica": "Accumulazione", "indice": "versione ESG dell'indice"},
+       {"nome": "Xtrackers CAC 40 UCITS ETF 1D", "emittente": "DWS Xtrackers", "isin": "LU0322250985", "borsa": "XETR:DX2G", "ter": 0.20, "aum": 0.122, "politica": "Distribuzione"}
+     ]},
+    {"id": "az_spagna", "nome": "Azioni Spagna (IBEX 35)", "gruppo": "Azioni", "paese": "ES",
+     "tickers": ["LYXIB.MC", "^IBEX"], "valuta": "EUR", "proxy": "Amundi IBEX 35 UCITS ETF",
+     "nota": "Le 35 società più scambiate della Borsa di Madrid, con molte banche e utility.",
+     "prodotti": [
+       {"nome": "Amundi IBEX 35 UCITS ETF", "emittente": "Amundi", "isin": "FR0010655746", "borsa": "BME:AMIBX", "ter": 0.44, "aum": 0.477, "politica": "Accumulazione"},
+       {"nome": "Amundi IBEX 35 UCITS ETF Dist", "emittente": "Amundi", "isin": "FR0010251744", "borsa": "BME:LYXIB", "yahoo": "LYXIB.MC", "ter": 0.44, "aum": 0.422, "politica": "Distribuzione"}
+     ]},
+    {"id": "az_eurozona", "nome": "Azioni area euro (Euro Stoxx 50)", "gruppo": "Azioni", "paese": "EA",
+     "tickers": ["SXRT.DE"], "valuta": "EUR", "proxy": "iShares Core EURO STOXX 50 UCITS ETF",
+     "nota": "Le 50 maggiori aziende dei Paesi che usano l'euro. Niente rischio di cambio per chi vive in Italia.",
+     "prodotti": [
+       {"nome": "iShares Core EURO STOXX 50 UCITS ETF (DE)", "emittente": "BlackRock iShares", "isin": "DE0005933956", "borsa": "XETR:EXW1", "yahoo": "EXW1.DE", "ter": 0.14, "aum": 9.42, "politica": "Distribuzione"},
+       {"nome": "iShares Core EURO STOXX 50 UCITS ETF", "emittente": "BlackRock iShares", "isin": "IE00B53L3W79", "borsa": "XETR:SXRT", "yahoo": "SXRT.DE", "ter": 0.15, "aum": 7.56, "politica": "Accumulazione"},
+       {"nome": "Xtrackers EURO STOXX 50 UCITS ETF 1C", "emittente": "DWS Xtrackers", "isin": "LU0380865021", "borsa": "XETR:XESC", "yahoo": "XESC.DE", "ter": 0.10, "aum": 6.27, "politica": "Accumulazione"}
+     ]},
+    {"id": "az_europa", "nome": "Azioni Europa", "gruppo": "Azioni",
+     "tickers": ["EUNK.DE"], "valuta": "EUR", "proxy": "iShares Core MSCI Europe UCITS ETF (Acc)",
+     "nota": "Circa 400 grandi e medie aziende europee, compresi Regno Unito e Svizzera (quindi con un po' di rischio di cambio).",
+     "prodotti": [
+       {"nome": "Amundi Core Stoxx Europe 600 UCITS ETF Acc", "emittente": "Amundi", "isin": "LU0908500753", "borsa": "XETR:LYP6", "yahoo": "LYP6.DE", "ter": 0.07, "aum": 21.78, "politica": "Accumulazione"},
+       {"nome": "iShares Core MSCI Europe UCITS ETF (Acc)", "emittente": "BlackRock iShares", "isin": "IE00B4K48X80", "borsa": "XETR:EUNK", "yahoo": "EUNK.DE", "ter": 0.13, "aum": 16.01, "politica": "Accumulazione"},
+       {"nome": "iShares Core MSCI Europe UCITS ETF (Dist)", "emittente": "BlackRock iShares", "isin": "IE00B1YZSC51", "borsa": "XETR:IQQY", "yahoo": "IQQY.DE", "ter": 0.13, "aum": 10.76, "politica": "Distribuzione"},
+       {"nome": "iShares STOXX Europe 600 UCITS ETF (DE)", "emittente": "BlackRock iShares", "isin": "DE0002635307", "borsa": "XETR:EXSA", "yahoo": "EXSA.DE", "ter": 0.21, "aum": 9.57, "politica": "Distribuzione"}
+     ]},
+    {"id": "az_mondo", "nome": "Azioni mondo (Paesi sviluppati)", "gruppo": "Azioni",
+     "tickers": ["EUNL.DE"], "valuta": "EUR", "proxy": "iShares Core MSCI World UCITS ETF",
+     "nota": "Circa 1.400 grandi aziende di 23 Paesi sviluppati. Gli Stati Uniti pesano oltre il 70%, l'Italia meno dell'1%.",
+     "prodotti": [
+       {"nome": "iShares Core MSCI World UCITS ETF", "emittente": "BlackRock iShares", "isin": "IE00B4L5Y983", "borsa": "XETR:EUNL", "yahoo": "EUNL.DE", "ter": 0.20, "aum": 133.22, "politica": "Accumulazione"},
+       {"nome": "Vanguard FTSE All-World UCITS ETF (Acc)", "emittente": "Vanguard", "isin": "IE00BK5BQT80", "borsa": "XETR:VWCE", "yahoo": "VWCE.DE", "ter": 0.16, "aum": 56.18, "politica": "Accumulazione", "indice": "comprende anche i Paesi emergenti"},
+       {"nome": "iShares MSCI ACWI UCITS ETF", "emittente": "BlackRock iShares", "isin": "IE00B6R52259", "borsa": "XETR:IUSQ", "yahoo": "IUSQ.DE", "ter": 0.21, "aum": 31.88, "politica": "Accumulazione", "indice": "comprende anche i Paesi emergenti"},
+       {"nome": "Xtrackers MSCI World UCITS ETF 1C", "emittente": "DWS Xtrackers", "isin": "IE00BJ0KDQ92", "borsa": "XETR:XDWD", "yahoo": "XDWD.DE", "ter": 0.12, "aum": 22.27, "politica": "Accumulazione"}
+     ]},
+    {"id": "az_usa", "nome": "Azioni USA (S&P 500)", "gruppo": "Azioni",
+     "tickers": ["SXR8.DE"], "valuta": "EUR", "proxy": "iShares Core S&P 500 UCITS ETF",
+     "nota": "Le 500 maggiori aziende americane. Il fondo è quotato in euro ma è esposto al dollaro: se il dollaro scende, il valore in euro scende.",
+     "prodotti": [
+       {"nome": "iShares Core S&P 500 UCITS ETF", "emittente": "BlackRock iShares", "isin": "IE00B5BMR087", "borsa": "XETR:SXR8", "yahoo": "SXR8.DE", "ter": 0.07, "aum": 140.46, "politica": "Accumulazione"},
+       {"nome": "Vanguard S&P 500 UCITS ETF (Dist)", "emittente": "Vanguard", "isin": "IE00B3XXRP09", "borsa": "XETR:VUSA", "yahoo": "VUSA.DE", "ter": 0.07, "aum": 48.15, "politica": "Distribuzione"},
+       {"nome": "Invesco S&P 500 UCITS ETF", "emittente": "Invesco", "isin": "IE00B3YCGJ38", "borsa": "XETR:P500", "yahoo": "P500.DE", "ter": 0.05, "aum": 38.08, "politica": "Accumulazione", "indice": "replica sintetica, tramite swap"}
+     ]},
+    {"id": "az_emergenti", "nome": "Azioni Paesi emergenti", "gruppo": "Azioni",
+     "tickers": ["IS3N.DE"], "valuta": "EUR", "proxy": "iShares Core MSCI EM IMI UCITS ETF",
+     "nota": "Cina, India, Taiwan, Corea, Brasile e altri. Più crescita potenziale, più oscillazioni, rischio politico e di cambio.",
+     "prodotti": [
+       {"nome": "iShares Core MSCI EM IMI UCITS ETF", "emittente": "BlackRock iShares", "isin": "IE00BKM4GZ66", "borsa": "XETR:IS3N", "yahoo": "IS3N.DE", "ter": 0.22, "aum": 37.79, "politica": "Accumulazione"},
+       {"nome": "Xtrackers MSCI Emerging Markets UCITS ETF 1C", "emittente": "DWS Xtrackers", "isin": "IE00BTJRMP35", "borsa": "XETR:XMME", "yahoo": "XMME.DE", "ter": 0.22, "aum": 11.80, "politica": "Accumulazione"},
+       {"nome": "iShares MSCI EM UCITS ETF (Acc)", "emittente": "BlackRock iShares", "isin": "IE00B4L5YC18", "borsa": "XETR:EUNM", "yahoo": "EUNM.DE", "ter": 0.22, "aum": 8.99, "politica": "Accumulazione"}
+     ]},
+    {"id": "ob_monetario", "nome": "Monetario in euro", "gruppo": "Liquidità",
+     "tickers": ["XEON.DE"], "valuta": "EUR", "proxy": "Xtrackers II EUR Overnight Rate Swap UCITS ETF",
+     "nota": "Segue il tasso a un giorno dell'area euro (€STR). Si muove quasi solo con i tassi della BCE: oscilla pochissimo.",
+     "prodotti": [
+       {"nome": "Xtrackers II EUR Overnight Rate Swap UCITS ETF 1C", "emittente": "DWS Xtrackers", "isin": "LU0290358497", "borsa": "XETR:XEON", "yahoo": "XEON.DE", "ter": 0.10, "aum": 23.53, "politica": "Accumulazione"},
+       {"nome": "Amundi Smart Overnight Return UCITS ETF Acc", "emittente": "Amundi", "isin": "LU1190417599", "borsa": "XETR:LYOR", "ter": 0.10, "aum": 7.36, "politica": "Accumulazione"},
+       {"nome": "iShares EUR Ultrashort Bond UCITS ETF", "emittente": "BlackRock iShares", "isin": "IE00BCRY6557", "borsa": "XETR:IS3M", "yahoo": "IS3M.DE", "ter": 0.11, "aum": 3.42, "politica": "Distribuzione", "indice": "obbligazioni a brevissima scadenza, non tasso overnight"}
+     ]},
+    {"id": "ob_stato_ea", "nome": "Titoli di Stato area euro", "gruppo": "Obbligazioni",
+     "tickers": ["XGLE.DE"], "valuta": "EUR", "proxy": "Xtrackers II Eurozone Government Bond UCITS ETF",
+     "nota": "BTP, Bund, OAT francesi, Bonos spagnoli e altri, di tutte le scadenze. Perdono valore quando i tassi salgono, come nel 2022.",
+     "prodotti": [
+       {"nome": "iShares Core EUR Govt Bond UCITS ETF", "emittente": "BlackRock iShares", "isin": "IE00B4WXJJ64", "borsa": "XETR:EUNH", "yahoo": "EUNH.DE", "ter": 0.08, "aum": 5.37, "politica": "Distribuzione"},
+       {"nome": "Vanguard EUR Eurozone Government Bond UCITS ETF (Acc)", "emittente": "Vanguard", "isin": "IE00BH04GL39", "borsa": "XETR:VGEA", "yahoo": "VGEA.DE", "ter": 0.07, "aum": 4.12, "politica": "Accumulazione"},
+       {"nome": "Xtrackers II Eurozone Government Bond UCITS ETF 1C", "emittente": "DWS Xtrackers", "isin": "LU0290355717", "borsa": "XETR:XGLE", "yahoo": "XGLE.DE", "ter": 0.07, "aum": 2.51, "politica": "Accumulazione"}
+     ]},
+    {"id": "ob_btp", "nome": "Titoli di Stato italiani (BTP)", "gruppo": "Obbligazioni", "paese": "IT",
+     "tickers": ["IS0M.DE"], "valuta": "EUR", "proxy": "iShares Italy Govt Bond UCITS ETF",
+     "nota": "Solo debito pubblico italiano, di varie scadenze. Oltre ai tassi BCE conta lo spread: se sale, i prezzi dei BTP scendono.",
+     "prodotti": [
+       {"nome": "iShares Italy Govt Bond UCITS ETF", "emittente": "BlackRock iShares", "isin": "IE00B7LW6Y90", "borsa": "XETR:IS0M", "yahoo": "IS0M.DE", "ter": 0.20, "aum": 0.499, "politica": "Distribuzione"}
+     ]},
+    {"id": "ob_corporate", "nome": "Obbligazioni societarie in euro", "gruppo": "Obbligazioni",
+     "tickers": ["D5BG.DE"], "valuta": "EUR", "proxy": "Xtrackers II EUR Corporate Bond UCITS ETF",
+     "nota": "Debito di grandi aziende con buon merito di credito (investment grade). Rende un po' più dei titoli di Stato.",
+     "prodotti": [
+       {"nome": "iShares Core EUR Corp Bond UCITS ETF", "emittente": "BlackRock iShares", "isin": "IE00B3F81R35", "borsa": "XETR:EUN5", "yahoo": "EUN5.DE", "ter": 0.09, "aum": 9.08, "politica": "Distribuzione"},
+       {"nome": "Xtrackers II EUR Corporate Bond UCITS ETF 1C", "emittente": "DWS Xtrackers", "isin": "LU0478205379", "borsa": "XETR:D5BG", "yahoo": "D5BG.DE", "ter": 0.09, "aum": 4.59, "politica": "Accumulazione"},
+       {"nome": "Vanguard EUR Corporate Bond UCITS ETF", "emittente": "Vanguard", "isin": "IE00BZ163G84", "borsa": "XETR:VECP", "yahoo": "VECP.DE", "ter": 0.08, "aum": 3.29, "politica": "Distribuzione"}
+     ]},
+    {"id": "ob_highyield", "nome": "Obbligazioni high yield in euro", "gruppo": "Obbligazioni",
+     "tickers": ["XHYA.DE"], "valuta": "EUR", "proxy": "Xtrackers II EUR High Yield Corporate Bond UCITS ETF 1C",
+     "nota": "Debito di aziende con rating basso: cedole più alte, ma nelle crisi si comporta in parte come le azioni.",
+     "prodotti": [
+       {"nome": "iShares Euro High Yield Corp Bond UCITS ETF", "emittente": "BlackRock iShares", "isin": "IE00B66F4759", "borsa": "XETR:EUNW", "yahoo": "EUNW.DE", "ter": 0.55, "aum": 5.11, "politica": "Distribuzione"},
+       {"nome": "Xtrackers II EUR High Yield Corporate Bond UCITS ETF 1C", "emittente": "DWS Xtrackers", "isin": "LU1109943388", "borsa": "XETR:XHYA", "yahoo": "XHYA.DE", "ter": 0.29, "aum": 1.77, "politica": "Accumulazione"}
+     ]},
+    {"id": "mp_oro", "nome": "Oro", "gruppo": "Materie prime",
+     "tickers": ["4GLD.DE"], "valuta": "EUR", "proxy": "Xetra-Gold (oro fisico)",
+     "nota": "Non paga cedole né dividendi. Storicamente reagisce a tassi reali, dollaro e tensioni geopolitiche.",
+     "prodotti": [
+       {"nome": "iShares Physical Gold ETC", "emittente": "BlackRock iShares", "isin": "IE00B4ND3602", "borsa": "XETR:PPFB", "yahoo": "PPFB.DE", "ter": 0.12, "aum": 33.92, "politica": "Nessuna cedola", "tipo": "ETC"},
+       {"nome": "Invesco Physical Gold ETC", "emittente": "Invesco", "isin": "IE00B579F325", "borsa": "XETR:8PSG", "yahoo": "8PSG.DE", "ter": 0.12, "aum": 25.68, "politica": "Nessuna cedola", "tipo": "ETC"},
+       {"nome": "Xetra-Gold", "emittente": "Deutsche Börse Commodities", "isin": "DE000A0S9GB0", "borsa": "XETR:4GLD", "yahoo": "4GLD.DE", "ter": 0.36, "aum": 20.77, "politica": "Nessuna cedola", "tipo": "ETC"},
+       {"nome": "Amundi Physical Gold ETC", "emittente": "Amundi", "isin": "FR0013416716", "borsa": "XETR:GLDA", "ter": 0.12, "aum": 11.41, "politica": "Nessuna cedola", "tipo": "ETC"}
+     ]},
+    {"id": "im_europa", "nome": "Immobiliare quotato Europa", "gruppo": "Immobiliare",
+     "tickers": ["IQQP.DE"], "valuta": "EUR", "proxy": "iShares European Property Yield UCITS ETF",
+     "nota": "Società europee che possiedono e affittano immobili. Molto sensibili ai tassi: hanno sofferto la loro salita dal 2022.",
+     "prodotti": [
+       {"nome": "iShares European Property Yield UCITS ETF", "emittente": "BlackRock iShares", "isin": "IE00B0M63284", "borsa": "XETR:IQQP", "yahoo": "IQQP.DE", "ter": 0.42, "aum": 0.745, "politica": "Distribuzione"},
+       {"nome": "iShares European Property Yield UCITS ETF (Acc)", "emittente": "BlackRock iShares", "isin": "IE00BGDQ0L74", "borsa": "XETR:IPRE", "ter": 0.42, "aum": 0.185, "politica": "Accumulazione"}
+     ]},
+    {"id": "cr_bitcoin", "nome": "Bitcoin", "gruppo": "Cripto-attività",
+     "tickers": ["BTC-EUR"], "valuta": "EUR", "proxy": "Prezzo Bitcoin/euro",
+     "nota": "Strumento speculativo: ha perso più del 70% del suo valore più volte. Gli strumenti qui sotto sono titoli di debito garantiti da bitcoin, non fondi UCITS.",
+     "prodotti": [
+       {"nome": "Bitwise Physical Bitcoin ETP", "emittente": "Bitwise", "isin": "DE000A27Z304", "borsa": "XETR:BTCE", "yahoo": "BTCE.DE", "ter": 2.00, "aum": 0.768, "politica": "Nessuna cedola", "tipo": "ETP"},
+       {"nome": "VanEck Bitcoin ETN", "emittente": "VanEck", "isin": "DE000A28M8D0", "borsa": "XETR:VBTC", "yahoo": "VBTC.DE", "ter": 1.00, "aum": 0.496, "politica": "Nessuna cedola", "tipo": "ETN"}
+     ]}
+  ]
+}

@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Titoli di Stato · Bussola dei Mercati</title>
+<meta name="description" content="Rendimenti dei titoli di Stato di Italia, Germania e altri 13 Paesi, per scadenza. Spread con il Bund e confronto a 10 anni. Solo informazione.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="titoli">
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <a class="brand" href="index.html">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M16 4.5 L19.6 16 L16 27.5 L12.4 16 Z" fill="currentColor"/><circle cx="16" cy="16" r="2" fill="var(--bg)"/></svg>
+      Bussola dei Mercati
+    </a>
+    <nav class="nav" aria-label="Pagine">
+      <a href="index.html">Panoramica</a>
+      <a href="titoli-di-stato.html" aria-current="page">Titoli di Stato</a>
+      <a href="etf.html">ETF</a>
+      <a href="calendario.html">Calendario</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero">
+    <div class="wrap">
+      <p class="kicker" id="updated">Caricamento dei dati in corso</p>
+      <h1>Titoli di Stato, Paese per Paese.</h1>
+      <p class="lede">Quanto rendono i BTP e i titoli degli altri Stati, scadenza per scadenza. Quanto paga l'Italia più della Germania e com'era un anno fa.</p>
+    </div>
+  </section>
+
+  <div class="notice" role="note">
+    <div class="wrap notice-in">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v6.5M12 16.6v.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <p><b>Qui trovi informazioni, non consigli.</b> I rendimenti descrivono il mercato, non dicono se un titolo è adatto a te. Non è una raccomandazione personalizzata di investimento. Per decidere rivolgiti a un consulente abilitato.</p>
+    </div>
+  </div>
+  <div class="delay" role="note">
+    <div class="wrap delay-in">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 6.5V12l3.5 2.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <p><b>Dati in ritardo.</b> Le quotazioni dal vivo hanno almeno 15–20 minuti di ritardo. Le tabelle sono una fotografia di fine giornata e servono a capire, non a operare.</p>
+    </div>
+  </div>
+
+  <section class="wrap section live-sec" aria-labelledby="live-title">
+    <div class="sec-head">
+      <p class="sec-num">01</p>
+      <h2 id="live-title">Rendimenti dal vivo</h2>
+      <p>BTP italiani e titoli a 10 anni dei principali Paesi europei. Il rendimento è quanto rende all'anno il titolo se lo compri oggi al prezzo di mercato e lo tieni fino alla scadenza.</p>
+    </div>
+    <div class="live" id="live">
+      <div class="live-slot"></div>
+      <div class="live-off" hidden>
+        <p><b>Il riquadro dal vivo non si è caricato.</b> Compare sul sito pubblicato, dove TradingView può mostrare le sue quotazioni. Può non comparire anche se il browser blocca i contenuti esterni.</p>
+        <p>Qui sotto trovi la fotografia del <span id="snap-date"></span>, con gli stessi dati e la loro fonte.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="paese-title">
+    <div class="wrap section">
+      <div class="sec-head">
+        <p class="sec-num">02</p>
+        <h2 id="paese-title">Scegli il Paese</h2>
+        <p>Per ogni scadenza, il titolo di riferimento con cedola, prezzo e rendimento. La curva mostra quanto rende prestare denaro allo Stato per 1, 2, 10 o 30 anni.</p>
+      </div>
+      <div class="chips" id="paesi" role="group" aria-label="Paese"></div>
+      <div class="bond-panel">
+        <div id="bond-head"></div>
+        <figure class="curve-fig">
+          <div class="chart" id="curve"></div>
+          <figcaption><span id="curve-cap"></span><span class="legend" id="curve-legend"></span></figcaption>
+        </figure>
+      </div>
+      <div class="table-scroll">
+        <table class="cats bonds" id="bond-table">
+          <thead><tr>
+            <th scope="col">Scadenza</th><th scope="col">Titolo di riferimento</th><th scope="col" class="num">Prezzo</th><th scope="col" class="num">Rendimento</th>
+            <th scope="col" class="num">Var. giorno<br><small>punti base</small></th><th scope="col" class="num">In un anno<br><small>punti base</small></th><th scope="col" class="num">Spread Bund<br><small>punti base</small></th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="table-foot" id="bond-foot"></p>
+    </div>
+  </section>
+
+  <section class="wrap section" aria-labelledby="y10-title">
+    <div class="sec-head">
+      <p class="sec-num">03</p>
+      <h2 id="y10-title">Il 10 anni a confronto</h2>
+      <p>Il titolo a 10 anni è il termometro più usato per il costo del debito di uno Stato. Accanto, la differenza con la Germania in punti base (100 punti base = 1%).</p>
+    </div>
+    <div class="y10-grid">
+      <div><h3 class="mini-h">Area euro</h3><ul class="hbars" id="y10-euro"></ul></div>
+      <div><h3 class="mini-h">Fuori dall'euro</h3><ul class="hbars" id="y10-other"></ul>
+        <p class="table-foot">Valute diverse: un rendimento più alto può dipendere da un'inflazione o da tassi di interesse più alti in quel Paese, e chi investe in euro è esposto anche al cambio.</p></div>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="btp-title">
+    <div class="wrap section">
+      <div class="sec-head">
+        <p class="sec-num">04</p>
+        <h2 id="btp-title">I BTP uno per uno</h2>
+        <p>Oltre ai titoli di riferimento esistono decine di BTP in circolazione, ognuno con il proprio codice ISIN, cedola e scadenza.</p>
+      </div>
+      <div class="facts">
+        <article class="fact pending"><div class="fact-val">In arrivo</div><p class="fact-text">L'elenco completo dei BTP in circolazione, preso dal file pubblico del Ministero dell'Economia, con codice ISIN, cedola e scadenza.</p><p class="fact-src">Fonte prevista: Ministero dell'Economia e delle Finanze</p></article>
+        <article class="fact"><div class="fact-val"><small>Dove vederli oggi</small></div><p class="fact-text">Il Ministero pubblica l'elenco dei titoli di Stato; i prezzi di ogni BTP si vedono sul mercato MOT di Borsa Italiana.</p><p class="fact-src"><a href="https://www.dt.mef.gov.it/it/debito_pubblico/titoli_di_stato/" target="_blank" rel="noopener">Ministero dell'Economia</a> · <a href="https://www.borsaitaliana.it" target="_blank" rel="noopener">Borsa Italiana</a></p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section" aria-labelledby="glo-title">
+    <div class="sec-head">
+      <p class="sec-num">05</p>
+      <h2 id="glo-title">Le parole in breve</h2>
+    </div>
+    <dl class="method">
+      <div><dt>Rendimento</dt><dd>Quanto rende all'anno un titolo comprato oggi al prezzo di mercato e tenuto fino alla scadenza, cedole comprese, prima delle tasse.</dd></div>
+      <div><dt>Cedola</dt><dd>L'interesse fisso che lo Stato paga ogni anno su 100 euro di valore nominale. Un BTP con cedola 3,8% paga 3,80 euro all'anno ogni 100.</dd></div>
+      <div><dt>Prezzo e rendimento</dt><dd>Vanno in direzioni opposte: se i rendimenti salgono, i titoli già in circolazione valgono meno, perché pagano cedole più basse di quelli nuovi. L'effetto è più forte sulle scadenze lunghe.</dd></div>
+      <div><dt>Spread</dt><dd>La differenza tra il rendimento di un titolo e quello del Bund tedesco con la stessa scadenza. Si misura in punti base: 100 punti base sono l'1%.</dd></div>
+      <div><dt>Curva</dt><dd>I rendimenti messi in fila per scadenza. Di solito sale: prestare soldi per più anni rende di più. Una curva che scende o si appiattisce è un segnale che il mercato osserva con attenzione.</dd></div>
+      <div><dt>Tasse in Italia</dt><dd>Gli interessi dei titoli di Stato italiani ed europei sono tassati al 12,5%, invece del 26% previsto per la maggior parte degli altri investimenti.</dd></div>
+    </dl>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <h2>Avvertenza legale</h2>
+    <p>Bussola dei Mercati è un servizio di sola informazione ed educazione finanziaria. I contenuti non costituiscono consulenza in materia di investimenti ai sensi dell'art. 1, comma 5-septies, del D.Lgs. 58/1998 (TUF) e della direttiva 2014/65/UE (MiFID II), né sollecitazione o offerta di acquisto o vendita di strumenti finanziari. I rendimenti mostrati sono quelli dei titoli di riferimento per ogni scadenza e non tengono conto di tasse, commissioni e costi di intermediazione. I dati provengono da fonti terze ritenute affidabili ma possono contenere errori o ritardi. Le quotazioni dal vivo sono fornite da TradingView con un ritardo di almeno 15–20 minuti e non sono adatte a decisioni operative. Le performance passate non sono indicative di quelle future. Ogni decisione di investimento resta dell'utente, che dovrebbe valutarla con un consulente abilitato iscritto all'Albo OCF, dopo aver letto il KID del prodotto.</p>
+  </div>
+</footer>
+<script src="pagine.js"></script>
+</body>
+</html>
