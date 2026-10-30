@@ -168,6 +168,18 @@ BCE, ESTAT = "Banca Centrale Europea", "Eurostat"
 BCE_URL, ESTAT_URL = "https://data.ecb.europa.eu/", "https://ec.europa.eu/eurostat/"
 
 
+def _first_geo(fetch, geo):
+    """Per l'area euro prova i codici Eurostat in ordine: la composizione cambia quando entra un nuovo Paese."""
+    tries = ["EA21", "EA20", "EA"] if geo == "EA20" else [geo]
+    last = None
+    for g in tries:
+        try:
+            return fetch(g)
+        except Exception as e:
+            last = e
+    raise last
+
+
 def _eu_sources():
     out = []
     for code, name, ecb in PAESI:
@@ -177,7 +189,7 @@ def _eu_sources():
         out.append((f"infl_{code}", f"Inflazione {name}", "%", ESTAT, ESTAT_URL,
                     lambda g=("EA" if code == "EA" else code): fetch_eurostat("prc_hicp_minr", geo=g, unit="RCH_A", coicop18="TOTAL")))
         out.append((f"disocc_{code}", f"Disoccupazione {name}", "%", ESTAT, ESTAT_URL,
-                    lambda g=geo: fetch_eurostat("une_rt_m", geo=g, age="TOTAL", sex="T", s_adj="SA", unit="PC_ACT")))
+                    lambda g=geo: _first_geo(lambda x: fetch_eurostat("une_rt_m", geo=x, age="TOTAL", sex="T", s_adj="SA", unit="PC_ACT"), g)))
         out.append((f"pil_{code}", f"Crescita PIL {name} (su anno prima)", "%", ESTAT, ESTAT_URL,
                     lambda g=geo: fetch_eurostat("namq_10_gdp", since="2015-Q1", geo=g, unit="CLV_PCH_SM", s_adj="SCA", na_item="B1GQ")))
         if code != "EA":
