@@ -310,7 +310,11 @@
 
   function initCalendario(d) {
     var f = { paese: "", importanza: "", vista: "prossimi" };
-    $("#updated").textContent = "Calendario aggiornato al " + dayLong(d.aggiornato);
+    $("#updated").textContent = "Calendario aggiornato al " + dayLong(d.aggiornato) + (d.automatico ? ", ogni giorno dalle fonti ufficiali" : "");
+    if (d.automatico) {
+      $("#cal-intro").textContent = "Le date vengono ogni giorno dai calendari ufficiali di Eurostat, Istat, BCE, Fed e degli uffici statistici americani. Accanto a ogni appuntamento trovi l'ultimo dato già pubblicato, quando il sito lo segue. Tocca \"Cosa significa\" per la spiegazione.";
+      $("#cal-foot").textContent = "Fonti: " + d.fonte + ". Le previsioni degli analisti non sono riportate perché non esiste una fonte ufficiale gratuita. Gli orari possono cambiare: fa fede il sito dell'ente. Le spiegazioni sono scritte da Bussola dei Mercati a scopo educativo.";
+    }
     $("#snap-date").textContent = dayLong(d.aggiornato);
 
     liveWidget($("#live"), "events", { importanceFilter: "0,1", countryFilter: "it,eu,de,fr,es,us" }, 560);
@@ -374,15 +378,29 @@
       }).join("") || '<p class="empty">Nessun appuntamento con questi filtri.</p>';
       $("#cal-count").textContent = ev.length === 1 ? "1 appuntamento" : ev.length + " appuntamenti";
     }
+    // Calendario automatico: niente previsioni degli analisti, ma l'ultimo dato ufficiale già pubblicato.
+    function periodoLungo(p) {
+      var m = /^(\d{4})-T([1-4])$/.exec(p || ""); if (m) return m[2] + "° trimestre " + m[1];
+      m = /^(\d{4})-(\d{2})$/.exec(p || ""); if (m) return MESI[+m[2] - 1] + " " + m[1];
+      return p ? dayLong(p) : "";
+    }
+    function lastBox(e) {
+      var u = e.ultimo;
+      if (u) return '<div class="vals last"><span><small>Ultimo dato disponibile</small><b>' + num(u.valore, Math.abs(u.valore) < 10 ? 1 : 0).replace(/^-/, "−") + (u.unita === "%" ? "%" : "") +
+        '</b></span><span class="lsub">' + esc(periodoLungo(u.periodo)) + "<br>" + esc(u.nome) + "</span></div>";
+      if (e.famiglia === "banca_centrale" || e.famiglia === "discorso") return '<div class="vals none">Senza numeri: conta quello che viene detto</div>';
+      if (e.fonte_url) return '<div class="vals none">Il dato esce sul sito <a href="' + esc(e.fonte_url) + '" target="_blank" rel="noopener">' + esc(e.fonte) + "</a></div>";
+      return "";
+    }
     function row(e) {
       var fam = e.famiglia && d.famiglie[e.famiglia];
       var sub = [e.periodo ? "riferito a " + e.periodo : null, e.fase].filter(Boolean).join(" · ");
       var noNums = e.effettivo == null && e.previsto == null && e.precedente == null;
       return '<li class="ev' + (e.importanza === "alta" ? " hot" : "") + '"><span class="t mono">' + timeFmt.format(new Date(e.data)) + '</span><span class="flag">' + BANDIERA[e.paese] + "</span>" +
         '<div class="what"><span class="nm">' + esc(e.nome) + (e.importanza === "alta" ? ' <span class="imp" title="Dato molto seguito">molto seguito</span>' : "") + "</span>" + (sub ? '<span class="sub">' + esc(sub) + "</span>" : "") + "</div>" +
-        (noNums ? '<div class="vals none">Senza numeri: conta quello che viene detto</div>'
+        (noNums ? lastBox(e)
           : '<div class="vals"><span><small>Dato</small><b>' + fmtVal(e.effettivo, e) + "</b></span><span><small>Previsto</small>" + fmtVal(e.previsto, e) + "</span><span><small>Precedente</small>" + fmtVal(e.precedente, e) + "</span>" + surprise(e) + "</div>") +
-        (fam ? '<details><summary>Cosa significa</summary><p><b>' + esc(fam.nome) + ".</b> " + esc(fam.cosa) + "</p><p><b>Come lo legge di solito il mercato.</b> " + esc(fam.lettura) + "</p>" + (e.fonte ? '<p class="src">Fonte del dato: ' + esc(e.fonte) + "</p>" : "") + "</details>" : "") +
+        (fam ? '<details><summary>Cosa significa</summary><p><b>' + esc(fam.nome) + ".</b> " + esc(fam.cosa) + "</p><p><b>Come lo legge di solito il mercato.</b> " + esc(fam.lettura) + "</p>" + (e.fonte ? '<p class="src">Fonte: ' + (e.fonte_url ? '<a href="' + esc(e.fonte_url) + '" target="_blank" rel="noopener">' + esc(e.fonte) + "</a>" : esc(e.fonte)) + "</p>" : "") + "</details>" : "") +
         "</li>";
     }
     draw();

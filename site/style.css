@@ -376,3 +376,7 @@ tr.me .meter i { background: var(--accent); }
   .btp-table td.num { text-align: left; }
 }
 .btp-table td.num .cat-sub, .btp-table td.num .cat-name { font-family: var(--text); }
+/* Calendario automatico: ultimo dato ufficiale al posto delle previsioni */
+.ev .vals.last { gap: 2px 12px; }
+.ev .vals.last .lsub { font: 400 11.5px/1.35 var(--text); color: var(--muted); max-width: 15em; }
+.ev .vals.none a { color: inherit; }

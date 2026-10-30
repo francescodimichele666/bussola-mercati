@@ -32,11 +32,13 @@ jobs:
         run: python engine/build.py --out site/data/data.json
       - name: Scarica l'elenco dei titoli di Stato italiani (Ministero dell'Economia)
         run: python engine/btp.py --out site/data/btp.json
+      - name: Aggiorna il calendario economico dalle fonti ufficiali
+        run: python engine/calendario.py --out site/data/calendario.json
       - name: Salva i dati nel repository
         run: |
           git config user.name "bussola-bot"
           git config user.email "bussola-bot@users.noreply.github.com"
-          git add site/data/data.json site/data/btp.json
+          git add site/data/data.json site/data/btp.json site/data/calendario.json
           git diff --cached --quiet || git commit -m "Dati aggiornati $(date -u +'%Y-%m-%d %H:%M') UTC"
           git push
       - uses: actions/configure-pages@v5

@@ -44,7 +44,7 @@
   <div class="delay" role="note">
     <div class="wrap delay-in">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 6.5V12l3.5 2.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-      <p><b>Dati in ritardo.</b> Il riquadro dal vivo ha almeno 15–20 minuti di ritardo. L'elenco sotto è una fotografia: un dato appena uscito può comparire più tardi.</p>
+      <p><b>Dati in ritardo.</b> Il riquadro dal vivo ha almeno 15–20 minuti di ritardo. L'elenco sotto si aggiorna una volta al giorno: un dato appena uscito può comparire più tardi.</p>
     </div>
   </div>
 
@@ -52,13 +52,13 @@
     <div class="sec-head">
       <p class="sec-num">01</p>
       <h2 id="live-title">Calendario dal vivo</h2>
-      <p>Il calendario di TradingView con gli stessi Paesi, sempre aggiornato. Sotto, lo stesso calendario con nomi e spiegazioni in italiano.</p>
+      <p>Il calendario di TradingView, sempre aggiornato, con le previsioni degli analisti. Sotto, gli appuntamenti principali con nomi e spiegazioni in italiano.</p>
     </div>
     <div class="live" id="live">
       <div class="live-slot"></div>
       <div class="live-off" hidden>
         <p><b>Il riquadro dal vivo non si è caricato.</b> Compare sul sito pubblicato, dove TradingView può mostrare le sue quotazioni. Può non comparire anche se il browser blocca i contenuti esterni.</p>
-        <p>Qui sotto trovi la fotografia del <span id="snap-date"></span>, con gli stessi dati e la loro fonte.</p>
+        <p>Qui sotto trovi il calendario aggiornato al <span id="snap-date"></span> con le date ufficiali.</p>
       </div>
     </div>
   </section>
@@ -68,9 +68,9 @@
       <div class="sec-head">
         <p class="sec-num">02</p>
         <h2 id="cal-title">Gli appuntamenti</h2>
-        <p>Accanto a ogni dato trovi il valore uscito, quello atteso dagli analisti e quello precedente. Tocca "Cosa significa" per la spiegazione.</p>
+        <p id="cal-intro">Accanto a ogni dato trovi il valore uscito, quello atteso dagli analisti e quello precedente. Tocca "Cosa significa" per la spiegazione.</p>
       </div>
-      <div class="howto"><b>Come si legge.</b> I mercati reagiscono soprattutto alla <i>sorpresa</i>, cioè alla differenza tra il dato uscito e quello atteso. Un dato "sopra le attese" non è per forza una buona notizia: per l'inflazione o la disoccupazione può essere il contrario.</div>
+      <div class="howto"><b>Come si legge.</b> I mercati reagiscono soprattutto alla <i>sorpresa</i>, cioè alla differenza tra il dato uscito e quello atteso. Un dato "sopra le attese" non è per forza una buona notizia: per l'inflazione o la disoccupazione può essere il contrario. Le attese degli analisti si vedono nel riquadro dal vivo qui sopra.</div>
       <div class="cal-filters">
         <div class="chips" id="c-vista" role="group" aria-label="Periodo"><button type="button" data-v="prossimi" aria-pressed="true">In arrivo</button><button type="button" data-v="pubblicati" aria-pressed="false">Già usciti</button></div>
         <div class="chips" id="c-imp" role="group" aria-label="Importanza"><button type="button" data-v="" aria-pressed="true">Tutti i dati</button><button type="button" data-v="alta" aria-pressed="false">Solo i più seguiti</button></div>
@@ -78,7 +78,7 @@
       </div>
       <p class="count" aria-live="polite"><b id="cal-count"></b> · orari in ora italiana</p>
       <div id="cal"></div>
-      <p class="table-foot">Fonte: TradingView, calendario economico; i dati sono pubblicati da istituti di statistica e banche centrali. "Previsto" è la stima di consenso riportata da TradingView. Le spiegazioni sono scritte da Bussola dei Mercati a scopo educativo.</p>
+      <p class="table-foot" id="cal-foot">Fonte: TradingView, calendario economico; i dati sono pubblicati da istituti di statistica e banche centrali. "Previsto" è la stima di consenso riportata da TradingView. Le spiegazioni sono scritte da Bussola dei Mercati a scopo educativo.</p>
     </div>
   </section>
 </main>

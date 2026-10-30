@@ -100,6 +100,7 @@ Questo non è un parere legale: è il motivo per cui il sito è progettato così
 | `site/index.html`, `site/style.css`, `site/app.js` | La pagina principale. |
 | `site/titoli-di-stato.html`, `site/etf.html`, `site/calendario.html`, `site/pagine.js` | Le tre pagine interne: titoli di Stato per Paese, ETF del mondo con filtri, calendario economico spiegato. |
 | `engine/btp.py` | Ogni giorno scarica dal sito del Ministero dell'Economia il file più recente dei titoli di Stato in circolazione (BOT, BTP, CCTeu...) e scrive `site/data/btp.json`. Se il Ministero non risponde, resta l'ultimo elenco buono. |
+| `engine/calendario.py` | Ogni giorno costruisce il calendario economico dai calendari ufficiali di Eurostat, Istat, BCE, Fed, BLS e BEA, con nomi e spiegazioni in italiano e l'ultimo dato disponibile. Senza previsioni degli analisti (non c'è una fonte gratuita). Se quasi tutte le fonti non rispondono, resta il calendario del giorno prima. |
 | `engine/pagine.py`, `engine/anteprima_raw_pagine/` | Prepara `titoli.json`, `etf.json` e `calendario.json` (nomi e spiegazioni in italiano, cambi, doppioni tolti) dai dati grezzi di TradingView. |
 | `site/data/data.json` | I dati che la pagina legge. Lo riscrive il motore. |
 | `.github/workflows/aggiorna-sito.yml` | Le istruzioni per l'aggiornamento automatico. |
