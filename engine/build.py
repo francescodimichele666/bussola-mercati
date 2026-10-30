@@ -101,11 +101,12 @@ def fetch_ecb(flow, key):
     return [(str(d), float(v)) for d, v in zip(df["TIME_PERIOD"], df["OBS_VALUE"])]
 
 
-def fetch_eurostat(dataset, **params):
-    """Serie Eurostat (formato JSON-stat). Mesi come AAAA-MM, trimestri come AAAA-T#."""
+def fetch_eurostat(dataset, since="2015-01", **params):
+    """Serie Eurostat (formato JSON-stat). Mesi come AAAA-MM, trimestri come AAAA-T#.
+    L'API accetta solo lang EN, FR o DE; per i dati trimestrali `since` va scritto come 2015-Q1."""
     import re
     import requests
-    q = {"format": "JSON", "lang": "IT", "sinceTimePeriod": "2015-01"}
+    q = {"format": "JSON", "lang": "EN", "sinceTimePeriod": since}
     q.update(params)
     url = f"https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/{dataset}"
     r = requests.get(url, params=q, headers=UA, timeout=60)
@@ -171,12 +172,14 @@ def _eu_sources():
     out = []
     for code, name, ecb in PAESI:
         geo = "EA20" if code == "EA" else code
-        out.append((f"infl_{code}", f"Inflazione {name}", "%", BCE, BCE_URL,
-                    lambda e=ecb: fetch_ecb("ICP", f"M.{e}.N.000000.4.ANR")))
+        # Da gennaio 2026 l'inflazione armonizzata usa la classificazione ECOICOP 2 (dataset prc_hicp_minr);
+        # la vecchia serie BCE ICP ...000000.4.ANR si è fermata a dicembre 2025.
+        out.append((f"infl_{code}", f"Inflazione {name}", "%", ESTAT, ESTAT_URL,
+                    lambda g=("EA" if code == "EA" else code): fetch_eurostat("prc_hicp_minr", geo=g, unit="RCH_A", coicop18="TOTAL")))
         out.append((f"disocc_{code}", f"Disoccupazione {name}", "%", ESTAT, ESTAT_URL,
                     lambda g=geo: fetch_eurostat("une_rt_m", geo=g, age="TOTAL", sex="T", s_adj="SA", unit="PC_ACT")))
         out.append((f"pil_{code}", f"Crescita PIL {name} (su anno prima)", "%", ESTAT, ESTAT_URL,
-                    lambda g=geo: fetch_eurostat("namq_10_gdp", geo=g, unit="CLV_PCH_SM", s_adj="SCA", na_item="B1GQ")))
+                    lambda g=geo: fetch_eurostat("namq_10_gdp", since="2015-Q1", geo=g, unit="CLV_PCH_SM", s_adj="SCA", na_item="B1GQ")))
         if code != "EA":
             out.append((f"y10_{code}", f"Rendimento titoli di Stato 10 anni {name}", "%", BCE, BCE_URL,
                         lambda c=code: fetch_ecb("IRS", f"M.{c}.L.L40.CI.0000.EUR.N.Z")))

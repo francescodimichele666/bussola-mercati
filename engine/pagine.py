@@ -43,7 +43,7 @@ def build_titoli():
             "titolo": NOME_TITOLO.get(code, "Titolo di Stato"),
             "curva": sorted(rows, key=lambda r: r["scadenza_anni"]),
         })
-    return {"aggiornato": raw["aggiornato"], "fonte": raw["fonte"], "paesi": paesi}
+    return {"aggiornato": raw["aggiornato"], "ora": raw.get("ora"), "fonte": raw["fonte"], "paesi": paesi}
 
 
 # ---------------------------------------------------------------- ETF

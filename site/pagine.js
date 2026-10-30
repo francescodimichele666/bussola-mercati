@@ -65,16 +65,11 @@
     var de = byCode.DE;
     function at(p, y) { return p && p.curva.find(function (r) { return r.scadenza_anni === y; }); }
 
-    $("#updated").textContent = "Rendimenti di fine giornata del " + dayLong(d.aggiornato);
-    $("#snap-date").textContent = dayLong(d.aggiornato);
-
-    liveWidget($("#live"), "market-quotes", {
-      showSymbolLogo: false,
-      symbolsGroups: [
-        { name: "Italia", symbols: [2, 5, 10, 30].map(function (y) { return { name: "TVC:IT" + (y < 10 ? "0" : "") + y + "Y", displayName: "BTP " + y + " anni" }; }) },
-        { name: "10 anni in Europa", symbols: ["IT", "DE", "FR", "ES", "PT", "GR"].map(function (c) { return { name: "TVC:" + c + "10Y", displayName: byCode[c].nome }; }) }
-      ]
-    }, 420);
+    var quando = dayLong(d.aggiornato) + (d.ora ? " alle " + d.ora : "");
+    $("#updated").textContent = "Rendimenti del " + quando;
+    $("#snap-time").textContent = "il " + quando;
+    // Il riquadro gratuito di TradingView non mostra i rendimenti dei titoli di Stato (simboli TVC):
+    // qui si usa solo la fotografia dei dati, con data e ora ben visibili.
 
     // scelta del Paese
     var chips = $("#paesi");
