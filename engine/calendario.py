@@ -31,7 +31,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from pagine import FAMIGLIE  # spiegazioni in italiano, uguali a quelle già scritte
 
 ROOT = Path(__file__).resolve().parent.parent
-UA = {"User-Agent": "Mozilla/5.0 (BussolaMercati; +https://github.com/francescodimichele666/bussola-mercati)"}
+# Alcuni siti (es. BLS) rifiutano le richieste senza un User-Agent "da browser".
+UA = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) BussolaMercati/1.0 (+https://github.com/francescodimichele666/bussola-mercati)"}
 ROMA, NY, LUX = ZoneInfo("Europe/Rome"), ZoneInfo("America/New_York"), ZoneInfo("Europe/Luxembourg")
 MESI = "gennaio febbraio marzo aprile maggio giugno luglio agosto settembre ottobre novembre dicembre".split()
 MONTHS = "January February March April May June July August September October November December".split()
