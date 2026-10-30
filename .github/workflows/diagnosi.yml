@@ -6,22 +6,32 @@ jobs:
   prova:
     runs-on: ubuntu-latest
     steps:
-      - name: Struttura del nuovo HICP
+      - name: Guarda la pagina pubblicata
         run: |
-          python3 - <<'PY'
-          import json, urllib.request
-          E = "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/prc_hicp_minr"
-          d = json.load(urllib.request.urlopen(E + "?format=JSON&lang=EN&lastTimePeriod=1&geo=IT"))
-          for k in d["id"]:
-              cat = d["dimension"][k]["category"]
-              labs = cat.get("label", {})
-              keys = list(cat["index"].keys()) if isinstance(cat["index"], dict) else cat["index"]
-              print(k, len(keys), [(x, labs.get(x)) for x in keys[:8]])
-          for geo in ["IT", "EA", "EA20", "EA21", "DE"]:
-              for q in ["unit=RCH_A&coicop18=TOTAL", "unit=RCH_A&coicop=TOTAL", "unit=RCH_A&coicop18=CP00"]:
-                  try:
-                      x = json.load(urllib.request.urlopen(E + f"?format=JSON&lang=EN&sinceTimePeriod=2026-06&geo={geo}&{q}"))
-                      print("OK", geo, q, x["value"], list(x["dimension"]["time"]["category"]["index"].keys()))
-                  except Exception as e:
-                      print("NO", geo, q, e)
-          PY
+          npm i playwright@1.56.1 >/dev/null 2>&1 && npx playwright install --with-deps chromium >/dev/null 2>&1
+          cat > t.js <<'JS'
+          const { chromium } = require('playwright');
+          (async () => {
+            const b = await chromium.launch();
+            for (const pg of ['titoli-di-stato.html','etf.html','calendario.html','']) {
+              const p = await b.newPage({viewport:{width:1280,height:900}});
+              const log=[]; p.on('console', m=>log.push(m.type()+': '+m.text().slice(0,200))); p.on('pageerror', e=>log.push('PAGEERROR '+e.message));
+              p.on('requestfailed', r=>log.push('FAIL '+r.url()));
+              await p.goto('https://francescodimichele666.github.io/bussola-mercati/'+pg, {waitUntil:'networkidle'}).catch(e=>log.push('GOTO '+e.message));
+              await p.waitForTimeout(12000);
+              const info = await p.evaluate(()=>({
+                updated: document.querySelector('#updated')?.textContent,
+                righe: document.querySelectorAll('#bond-table tbody tr').length,
+                etf: document.querySelectorAll('.etf').length,
+                eventi: document.querySelectorAll('.ev').length,
+                iframe: [...document.querySelectorAll('iframe')].map(f=>f.src.slice(0,80)+' h='+f.clientHeight),
+                liveOff: document.querySelector('.live-off') ? !document.querySelector('.live-off').hidden : null,
+                cards: document.querySelectorAll('.card').length
+              }));
+              console.log('PAGINA', pg||'index', JSON.stringify(info)); console.log(log.slice(0,15).join('\n'));
+              await p.close();
+            }
+            await b.close();
+          })();
+          JS
+          node t.js
