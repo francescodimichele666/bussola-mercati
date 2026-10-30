@@ -3,35 +3,15 @@ on:
   push:
     branches: [diagnosi-fonti]
 jobs:
-  prova:
+  verifica:
     runs-on: ubuntu-latest
     steps:
-      - name: Guarda la pagina pubblicata
-        run: |
-          npm i playwright@1.56.1 >/dev/null 2>&1 && npx playwright install --with-deps chromium >/dev/null 2>&1
-          cat > t.js <<'JS'
-          const { chromium } = require('playwright');
-          (async () => {
-            const b = await chromium.launch();
-            for (const pg of ['titoli-di-stato.html','etf.html','calendario.html','']) {
-              const p = await b.newPage({viewport:{width:1280,height:900}});
-              const log=[]; p.on('console', m=>log.push(m.type()+': '+m.text().slice(0,200))); p.on('pageerror', e=>log.push('PAGEERROR '+e.message));
-              p.on('requestfailed', r=>log.push('FAIL '+r.url()));
-              await p.goto('https://francescodimichele666.github.io/bussola-mercati/'+pg, {waitUntil:'networkidle'}).catch(e=>log.push('GOTO '+e.message));
-              await p.waitForTimeout(12000);
-              const info = await p.evaluate(()=>({
-                updated: document.querySelector('#updated')?.textContent,
-                righe: document.querySelectorAll('#bond-table tbody tr').length,
-                etf: document.querySelectorAll('.etf').length,
-                eventi: document.querySelectorAll('.ev').length,
-                iframe: [...document.querySelectorAll('iframe')].map(f=>f.src.slice(0,80)+' h='+f.clientHeight),
-                liveOff: document.querySelector('.live-off') ? !document.querySelector('.live-off').hidden : null,
-                cards: document.querySelectorAll('.card').length
-              }));
-              console.log('PAGINA', pg||'index', JSON.stringify(info)); console.log(log.slice(0,15).join('\n'));
-              await p.close();
-            }
-            await b.close();
-          })();
-          JS
-          node t.js
+      - uses: actions/checkout@v4
+      - name: Prepara il browser
+        run: npm i playwright@1.56.1 >/dev/null 2>&1 && npx playwright install --with-deps chromium >/dev/null 2>&1
+      - name: Verifica completa del sito pubblicato
+        run: mkdir -p shots && BASE=https://francescodimichele666.github.io/bussola-mercati/ SHOTS=shots node .github/audit.js
+      - uses: actions/upload-artifact@v4
+        with:
+          name: schermate
+          path: shots
