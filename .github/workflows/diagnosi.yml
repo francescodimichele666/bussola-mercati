@@ -6,15 +6,22 @@ jobs:
   prova:
     runs-on: ubuntu-latest
     steps:
-      - name: Prova gli indirizzi
+      - name: Struttura del nuovo HICP
         run: |
-          prova() { echo "=== $1"; curl -sS -m 60 -o out.txt -w "HTTP %{http_code}\n" "$1"; head -c 400 out.txt; echo; }
-          E=https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data
-          prova "$E/une_rt_m?format=JSON&lang=EN&sinceTimePeriod=2025-06&geo=IT&age=TOTAL&sex=T&s_adj=SA&unit=PC_ACT"
-          prova "$E/namq_10_gdp?format=JSON&lang=EN&sinceTimePeriod=2025-Q1&geo=IT&unit=CLV_PCH_SM&s_adj=SCA&na_item=B1GQ"
-          prova "$E/prc_hicp_manr?format=JSON&lang=EN&sinceTimePeriod=2025-10&geo=IT&coicop=CP00"
-          prova "$E/prc_hicp_minr?format=JSON&lang=EN&sinceTimePeriod=2025-10&geo=IT"
-          B=https://data-api.ecb.europa.eu/service/data
-          prova "$B/ICP/M.IT.N.000000.4.ANR?format=csvdata&lastNObservations=3"
-          prova "$B/ICP/M.IT.N.TOT.4.ANR?format=csvdata&lastNObservations=3"
-          prova "$B/ICP/M.IT.N..4.ANR?format=csvdata&lastNObservations=1"
+          python3 - <<'PY'
+          import json, urllib.request
+          E = "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/prc_hicp_minr"
+          d = json.load(urllib.request.urlopen(E + "?format=JSON&lang=EN&lastTimePeriod=1&geo=IT"))
+          for k in d["id"]:
+              cat = d["dimension"][k]["category"]
+              labs = cat.get("label", {})
+              keys = list(cat["index"].keys()) if isinstance(cat["index"], dict) else cat["index"]
+              print(k, len(keys), [(x, labs.get(x)) for x in keys[:8]])
+          for geo in ["IT", "EA", "EA20", "EA21", "DE"]:
+              for q in ["unit=RCH_A&coicop18=TOTAL", "unit=RCH_A&coicop=TOTAL", "unit=RCH_A&coicop18=CP00"]:
+                  try:
+                      x = json.load(urllib.request.urlopen(E + f"?format=JSON&lang=EN&sinceTimePeriod=2026-06&geo={geo}&{q}"))
+                      print("OK", geo, q, x["value"], list(x["dimension"]["time"]["category"]["index"].keys()))
+                  except Exception as e:
+                      print("NO", geo, q, e)
+          PY
