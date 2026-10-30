@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Titoli di Stato · Bussola dei Mercati</title>
-<meta name="description" content="Rendimenti dei titoli di Stato di Italia, Germania e altri 13 Paesi, per scadenza. Spread con il Bund e confronto a 10 anni. Solo informazione.">
+<meta name="description" content="Rendimenti dei titoli di Stato di Italia, Germania e altri 13 Paesi, per scadenza. Spread con il Bund, confronto a 10 anni ed elenco dei BOT, BTP e CCTeu in circolazione. Solo informazione.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -94,13 +94,27 @@
     <div class="wrap section">
       <div class="sec-head">
         <p class="sec-num">03</p>
-        <h2 id="btp-title">I BTP uno per uno</h2>
-        <p>Oltre ai titoli di riferimento esistono decine di BTP in circolazione, ognuno con il proprio codice ISIN, cedola e scadenza.</p>
+        <h2 id="btp-title">I titoli di Stato italiani uno per uno</h2>
+        <p>Oltre ai titoli di riferimento, lo Stato ha in circolazione più di cento BOT, BTP e CCTeu, ognuno con il proprio codice ISIN, cedola e scadenza. L'elenco viene dal file pubblico del Ministero dell'Economia.</p>
       </div>
-      <div class="facts">
-        <article class="fact pending"><div class="fact-val">In arrivo</div><p class="fact-text">L'elenco completo dei BTP in circolazione, preso dal file pubblico del Ministero dell'Economia, con codice ISIN, cedola e scadenza.</p><p class="fact-src">Fonte prevista: Ministero dell'Economia e delle Finanze</p></article>
-        <article class="fact"><div class="fact-val"><small>Dove vederli oggi</small></div><p class="fact-text">Il Ministero pubblica l'elenco dei titoli di Stato; i prezzi di ogni BTP si vedono sul mercato MOT di Borsa Italiana.</p><p class="fact-src"><a href="https://www.dt.mef.gov.it/it/debito_pubblico/titoli_di_stato/" target="_blank" rel="noopener">Ministero dell'Economia</a> · <a href="https://www.borsaitaliana.it" target="_blank" rel="noopener">Borsa Italiana</a></p></article>
+      <form class="filters btp-filters" id="btp-filters" onsubmit="return false">
+        <label class="f-q"><span>Cerca</span><input type="search" name="q" placeholder="Codice ISIN, tipo o anno di scadenza" autocomplete="off"></label>
+        <label><span>Tipo</span><select name="famiglia" id="f-fam"></select></label>
+        <label><span>Scadenza</span><select name="durata"><option value="">Tutte</option><option value="0-1">entro 1 anno</option><option value="1-3">da 1 a 3 anni</option><option value="3-7">da 3 a 7 anni</option><option value="7-15">da 7 a 15 anni</option><option value="15-99">oltre 15 anni</option></select></label>
+        <label><span>Ordina per</span><select name="ordine"><option value="scadenza">Scadenza più vicina</option><option value="cedola">Cedola più alta</option><option value="circolante">Più diffusi</option></select></label>
+      </form>
+      <p class="count" aria-live="polite"><b id="btp-count"></b></p>
+      <p class="fam-note" id="fam-note" hidden></p>
+      <div class="table-scroll">
+        <table class="cats btp-table" id="btp-table">
+          <thead><tr>
+            <th scope="col">Titolo</th><th scope="col">Codice ISIN</th><th scope="col" class="num">Cedola annua</th><th scope="col">Scadenza</th><th scope="col" class="num">Anni alla scadenza</th><th scope="col" class="num">In circolazione<br><small>miliardi di euro</small></th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
       </div>
+      <button type="button" class="more" id="btp-more" hidden>Mostra altri</button>
+      <p class="table-foot" id="btp-foot"></p>
     </div>
   </section>
 
@@ -110,6 +124,8 @@
       <h2 id="glo-title">Le parole in breve</h2>
     </div>
     <dl class="method">
+      <div><dt>Codice ISIN</dt><dd>Il codice di 12 caratteri che identifica ogni titolo, come una targa. Serve per trovarlo sulla piattaforma della propria banca o sul sito di Borsa Italiana.</dd></div>
+      <div><dt>In circolazione</dt><dd>Quanti euro di quel titolo lo Stato ha emesso e non ancora rimborsato. Un titolo molto diffuso di solito si compra e si vende più facilmente.</dd></div>
       <div><dt>Rendimento</dt><dd>Quanto rende all'anno un titolo comprato oggi al prezzo di mercato e tenuto fino alla scadenza, cedole comprese, prima delle tasse.</dd></div>
       <div><dt>Cedola</dt><dd>L'interesse fisso che lo Stato paga ogni anno su 100 euro di valore nominale. Un BTP con cedola 3,8% paga 3,80 euro all'anno ogni 100.</dd></div>
       <div><dt>Prezzo e rendimento</dt><dd>Vanno in direzioni opposte: se i rendimenti salgono, i titoli già in circolazione valgono meno, perché pagano cedole più basse di quelli nuovi. L'effetto è più forte sulle scadenze lunghe.</dd></div>

@@ -30,11 +30,13 @@ jobs:
         run: pip install -r engine/requirements.txt
       - name: Scarica i dati e rifà i calcoli
         run: python engine/build.py --out site/data/data.json
+      - name: Scarica l'elenco dei titoli di Stato italiani (Ministero dell'Economia)
+        run: python engine/btp.py --out site/data/btp.json
       - name: Salva i dati nel repository
         run: |
           git config user.name "bussola-bot"
           git config user.email "bussola-bot@users.noreply.github.com"
-          git add site/data/data.json
+          git add site/data/data.json site/data/btp.json
           git diff --cached --quiet || git commit -m "Dati aggiornati $(date -u +'%Y-%m-%d %H:%M') UTC"
           git push
       - uses: actions/configure-pages@v5

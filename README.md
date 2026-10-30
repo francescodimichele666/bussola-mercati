@@ -99,6 +99,7 @@ Questo non è un parere legale: è il motivo per cui il sito è progettato così
 | `engine/anteprima.py`, `engine/anteprima_raw_eu/` | Dati reali di anteprima (TradingView, prezzi senza cedole per i fondi a distribuzione), usati solo prima del primo aggiornamento. |
 | `site/index.html`, `site/style.css`, `site/app.js` | La pagina principale. |
 | `site/titoli-di-stato.html`, `site/etf.html`, `site/calendario.html`, `site/pagine.js` | Le tre pagine interne: titoli di Stato per Paese, ETF del mondo con filtri, calendario economico spiegato. |
+| `engine/btp.py` | Ogni giorno scarica dal sito del Ministero dell'Economia il file più recente dei titoli di Stato in circolazione (BOT, BTP, CCTeu...) e scrive `site/data/btp.json`. Se il Ministero non risponde, resta l'ultimo elenco buono. |
 | `engine/pagine.py`, `engine/anteprima_raw_pagine/` | Prepara `titoli.json`, `etf.json` e `calendario.json` (nomi e spiegazioni in italiano, cambi, doppioni tolti) dai dati grezzi di TradingView. |
 | `site/data/data.json` | I dati che la pagina legge. Lo riscrive il motore. |
 | `.github/workflows/aggiorna-sito.yml` | Le istruzioni per l'aggiornamento automatico. |
@@ -107,7 +108,6 @@ Per provarlo sul tuo computer: `python3 -m http.server` dentro la cartella `site
 
 ## 7. Prossimi passi possibili
 
-* Elenco completo dei BTP (ISIN, cedola, scadenza) dal file pubblico del Ministero dell'Economia.
 * Aggiornamento automatico giornaliero delle tabelle delle tre pagine interne. Oggi le quotazioni dal vivo arrivano dai riquadri gratuiti di TradingView (ritardo di almeno 15–20 minuti); le tabelle sotto sono una fotografia del 30 ottobre 2026. Il motore su GitHub non può leggere TradingView: servirà una fonte con licenza o gratuita (per esempio i rendimenti giornalieri della BCE) per aggiornarle da sole.
 * Newsletter settimanale automatica con il "quadro di oggi".
 * Pagine di spiegazione (cos'è uno spread, cos'è la volatilità) per farsi trovare su Google.

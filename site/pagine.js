@@ -129,6 +129,82 @@
     if (window.ResizeObserver) new ResizeObserver(function (e) { var w = Math.round(e[0].contentRect.width); if (w !== lastW) { lastW = w; curveChart($("#curve"), byCode[sel], de); } }).observe($("#curve"));
   }
 
+  // ---------- Elenco dei titoli di Stato italiani (file del Ministero dell'Economia) ----------
+  var FAM_INFO = {
+    "BOT": "Buoni ordinari del Tesoro: durano al massimo 12 mesi e non pagano cedole. Si comprano sotto 100 e a scadenza lo Stato rimborsa 100: la differenza è l'interesse.",
+    "BTP": "Buoni del Tesoro poliennali: pagano una cedola fissa ogni sei mesi e durano da 2 a 50 anni. Il numero nel nome è la durata che avevano all'emissione.",
+    "BTP Italia": "Il capitale si rivaluta con l'inflazione italiana. La cedola indicata è “reale”: si applica al capitale rivalutato, quindi gli interessi crescono se i prezzi salgono.",
+    "BTP€i": "Il capitale si rivaluta con l'inflazione dell'area euro. La cedola indicata è “reale”: si applica al capitale rivalutato.",
+    "BTP Valore": "Pensati per i risparmiatori: le cedole crescono nel tempo (step-up) e chi tiene il titolo fino alla scadenza riceve un premio finale. In tabella c'è la prima cedola.",
+    "BTP Più": "Pensato per i risparmiatori, con cedole che crescono nel tempo (step-up). In tabella c'è la prima cedola; le condizioni complete sono nella scheda del Ministero.",
+    "BTP Futura": "Pensati per i risparmiatori nel 2020 e 2021: cedole crescenti nel tempo e un premio finale per chi li tiene fino alla scadenza. In tabella c'è la prima cedola.",
+    "BTP Green": "Funzionano come un BTP a cedola fissa, ma lo Stato usa i soldi raccolti per spese legate all'ambiente.",
+    "CCTeu": "La cedola cambia ogni sei mesi: segue il tasso Euribor a 6 mesi più uno spread fisso. In tabella c'è lo spread."
+  };
+  var FAM_ORD = ["BTP", "BOT", "CCTeu", "BTP Italia", "BTP€i", "BTP Valore", "BTP Più", "BTP Futura", "BTP Green"];
+
+  function initBtp(d) {
+    var all = d.titoli, PAGE_SIZE = 40, shown = PAGE_SIZE, today = new Date();
+    all.forEach(function (t) {
+      t.anni = (new Date(t.scadenza + "T00:00:00") - today) / (365.25 * 864e5);
+      t.testo = (t.isin + " " + t.tipo + " " + t.famiglia + " " + t.scadenza.slice(0, 4) + " " + dayLong(t.scadenza)).toLowerCase();
+    });
+    var conta = {}; all.forEach(function (t) { conta[t.famiglia] = (conta[t.famiglia] || 0) + 1; });
+    $("#f-fam").innerHTML = '<option value="">Tutti</option>' + FAM_ORD.filter(function (f) { return conta[f]; }).map(function (f) {
+      return '<option value="' + esc(f) + '">' + esc(f) + " (" + conta[f] + ")</option>";
+    }).join("");
+    var form = $("#btp-filters");
+    form.addEventListener("input", function () { shown = PAGE_SIZE; draw(); });
+    $("#btp-more").addEventListener("click", function () { shown += PAGE_SIZE; draw(); });
+
+    function cedola(t) {
+      if (t.famiglia === "BOT") return '<span class="cat-sub">nessuna</span>';
+      if (t.cedola == null) return "n.d.";
+      var v = num(t.cedola, Math.round(t.cedola * 1000) % 10 ? 3 : 2) + "%";
+      if (t.nota === "spread") return '<span class="cat-name">Euribor + ' + v + '</span><span class="cat-sub">variabile</span>';
+      if (t.nota === "reale") return '<span class="cat-name">' + v + '</span><span class="cat-sub">+ inflazione</span>';
+      if (t.nota === "step-up") return '<span class="cat-name">' + v + '</span><span class="cat-sub">iniziale, poi sale</span>';
+      return "<b>" + v + "</b>";
+    }
+    function anni(a) {
+      var g = Math.round(a * 365.25);
+      if (g < 60) return g + (g === 1 ? " giorno" : " giorni");
+      if (a < 1) { var m = Math.round(a * 12); return m + " mesi"; }
+      return num(a, 1);
+    }
+
+    function draw() {
+      var f = {}; $$("input, select", form).forEach(function (x) { f[x.name] = x.value.trim(); });
+      var words = f.q.toLowerCase().split(/\s+/).filter(Boolean);
+      var range = f.durata ? f.durata.split("-").map(Number) : null;
+      var rows = all.filter(function (t) {
+        if (f.famiglia && t.famiglia !== f.famiglia) return false;
+        if (range && (t.anni < range[0] || t.anni >= range[1])) return false;
+        return words.every(function (w) { return t.testo.indexOf(w) >= 0; });
+      });
+      rows.sort(function (a, b) {
+        if (f.ordine === "cedola") return (b.cedola == null ? -1 : b.cedola) - (a.cedola == null ? -1 : a.cedola) || a.scadenza.localeCompare(b.scadenza);
+        if (f.ordine === "circolante") return (b.circolante_mld || 0) - (a.circolante_mld || 0);
+        return a.scadenza.localeCompare(b.scadenza) || a.isin.localeCompare(b.isin);
+      });
+      $("#btp-count").textContent = rows.length ? rows.length + (rows.length === 1 ? " titolo" : " titoli") + " su " + all.length : "Nessun titolo con questi filtri";
+      var note = $("#fam-note");
+      note.hidden = !f.famiglia; note.innerHTML = f.famiglia ? "<b>" + esc(f.famiglia) + ".</b> " + esc(FAM_INFO[f.famiglia] || "") : "";
+      $("#btp-table tbody").innerHTML = rows.slice(0, shown).map(function (t) {
+        return '<tr><td><span class="cat-name">' + esc(t.tipo) + '</span><span class="cat-sub">emesso il ' + dayLong(t.emissione) + '</span></td><td class="isin" data-k="ISIN">' + esc(t.isin) +
+          '</td><td class="num" data-k="Cedola annua">' + cedola(t) + '</td><td data-k="Scadenza">' + dayLong(t.scadenza) + '</td><td class="num" data-k="Anni alla scadenza">' + anni(t.anni) +
+          '</td><td class="num" data-k="In circolazione, miliardi di euro">' + (t.circolante_mld != null ? num(t.circolante_mld, 2) : "n.d.") + "</td></tr>";
+      }).join("");
+      $("#btp-more").hidden = rows.length <= shown;
+    }
+
+    $("#btp-foot").innerHTML = "Situazione al " + dayLong(d.riferimento) + ", l'ultimo aggiornamento pubblicato dal Ministero, che rinnova il file ogni mese. " +
+      "Sono esclusi i titoli già rimborsati, quelli in valuta estera e i prestiti europei. Cedola annua lorda, prima delle tasse al 12,5%. " +
+      "L'elenco non dice se un titolo è adatto a te e non mostra i prezzi di mercato, che si vedono sul MOT di Borsa Italiana. " +
+      'Fonte: <a href="' + esc(d.fonte_url) + '" target="_blank" rel="noopener">' + esc(d.fonte) + "</a>.";
+    draw();
+  }
+
   function curveChart(el, p, de) {
     var W = Math.max(280, el.clientWidth), H = W < 500 ? 220 : 260, padL = 40, padR = 16, padT = 14, padB = 30;
     var series = [{ name: p.nome, color: "var(--accent)", w: 2.6, pts: p.curva.map(function (r) { return [r.scadenza_anni, r.rendimento]; }) }];
@@ -312,7 +388,7 @@
     draw();
   }
 
-  if (PAGE === "titoli") load("titoli.json", initTitoli);
+  if (PAGE === "titoli") { load("titoli.json", initTitoli); load("btp.json", initBtp); }
   if (PAGE === "etf") load("etf.json", initEtf);
   if (PAGE === "calendario") load("calendario.json", initCalendario);
 })();

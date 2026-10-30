@@ -353,3 +353,26 @@ tr.me .meter i { background: var(--accent); }
   .ev { grid-template-columns: 46px 30px minmax(0, 1fr); grid-template-areas: "t f w" "t f v" "t f d"; }
   .ev .vals { justify-content: flex-start; text-align: left; margin-top: 6px; gap: 4px 14px; }
 }
+
+/* Elenco dei titoli di Stato italiani */
+.btp-filters { grid-template-columns: 2fr 1fr 1fr 1fr; }
+.btp-filters .f-q { grid-column: auto; }
+@media (max-width: 900px) { .btp-filters { grid-template-columns: repeat(3, minmax(0, 1fr)); } .btp-filters .f-q { grid-column: 1 / -1; } }
+@media (max-width: 560px) { .btp-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); } .btp-filters label:last-child { grid-column: 1 / -1; } }
+.fam-note { margin: 0 0 14px; padding: 12px 14px; border-radius: 10px; background: var(--surface); border: 1px solid var(--line); font-size: 14.5px; line-height: 1.5; color: var(--ink-2); max-width: 760px; }
+.fam-note b { color: var(--ink); }
+.btp-table td.isin { font: 500 13.5px var(--mono); white-space: nowrap; letter-spacing: .02em; }
+.btp-table td { vertical-align: middle; }
+.btp-table td:nth-child(4) { white-space: nowrap; }
+.more[hidden] { display: none; }
+/* Sul telefono ogni titolo diventa una scheda: niente scorrimento laterale */
+@media (max-width: 640px) {
+  .btp-table thead { display: none; }
+  .btp-table, .btp-table tbody { display: block; min-width: 0; }
+  .btp-table tr { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; padding: 12px 2px; border-bottom: 1px solid var(--line); }
+  .btp-table td { display: block; padding: 0; border: 0; text-align: left; position: static; background: none; box-shadow: none; min-width: 0; max-width: none; }
+  .btp-table td:first-child { grid-column: 1 / -1; position: static; background: none; box-shadow: none; min-width: 0; max-width: none; }
+  .btp-table td[data-k]::before { content: attr(data-k); display: block; font: 400 11.5px var(--text); color: var(--muted); letter-spacing: 0; }
+  .btp-table td.num { text-align: left; }
+}
+.btp-table td.num .cat-sub, .btp-table td.num .cat-name { font-family: var(--text); }
