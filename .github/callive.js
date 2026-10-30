@@ -8,5 +8,5 @@ const { chromium } = require('playwright');
   for (const sel of ['#c-vista button[data-v=pubblicati]','#c-imp button[data-v=alta]','#c-paese button[data-v=IT]']) { await p.click(sel); console.log(sel, await p.textContent('#cal-count')); }
   await p.click('#c-vista button[data-v=prossimi]'); await p.click('#c-imp button[data-v=""]'); await p.click('#c-paese button[data-v=""]');
 
-
+  }
  console.log('errors',errs); await b.close(); })();
